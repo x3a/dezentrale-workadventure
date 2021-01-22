@@ -11,6 +11,7 @@ import {
 import {ScreenSharingPeer} from "./ScreenSharingPeer";
 import {MESSAGE_TYPE_CONSTRAINT, MESSAGE_TYPE_MESSAGE, VideoPeer} from "./VideoPeer";
 import {RoomConnection} from "../Connexion/RoomConnection";
+import {blackListManager} from "./BlackListManager";
 
 export interface UserSimplePeerInterface{
     userId: number;
@@ -91,8 +92,8 @@ export class SimplePeer {
         });
     }
 
-    private receiveWebrtcStart(user: UserSimplePeerInterface) {
-        //this.WebRtcRoomId = data.roomId;
+    private receiveWebrtcStart(user: UserSimplePeerInterface): void {
+        if (blackListManager.isBlackListed(user.userId)) return;
         this.Users.push(user);
         // Note: the clients array contain the list of all clients (even the ones we are already connected to in case a user joints a group)
         // So we can receive a request we already had before. (which will abort at the first line of createPeerConnection)
@@ -285,6 +286,7 @@ export class SimplePeer {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private receiveWebrtcSignal(data: WebRtcSignalReceivedMessageInterface) {
+        if (blackListManager.isBlackListed(data.userId)) return;
         try {
             //if offer type, create peer connection
             if(data.signal.type === "offer"){
@@ -302,6 +304,7 @@ export class SimplePeer {
     }
 
     private receiveWebrtcScreenSharingSignal(data: WebRtcSignalReceivedMessageInterface) {
+        if (blackListManager.isBlackListed(data.userId)) return;
         console.log("receiveWebrtcScreenSharingSignal", data);
         try {
             //if offer type, create peer connection
@@ -401,6 +404,7 @@ export class SimplePeer {
     }
 
     private sendLocalScreenSharingStreamToUser(userId: number): void {
+        if (blackListManager.isBlackListed(userId)) return;
         // If a connection already exists with user (because it is already sharing a screen with us... let's use this connection)
         if (this.PeerScreenSharingConnectionArray.has(userId)) {
             this.pushScreenSharingToRemoteUser(userId);
