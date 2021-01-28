@@ -1,0 +1,66 @@
+<style>
+    *{
+        font-family: 'Open Sans', sans-serif;
+        cursor: url('/resources/logos/cursor_normal.png'), auto;
+    }
+    * a, button, select{
+        cursor: url('/resources/logos/cursor_pointer.png'), pointer;
+    }
+    #blackList {
+        background: #eceeee;
+        border: 1px solid #42464b;
+        border-radius: 6px;
+        height: 257px;
+        margin: 20px auto 0;
+        width: 298px;
+    }
+    #blackList h1 {
+        background-image: linear-gradient(top, #f1f3f3, #d4dae0);
+        border-bottom: 1px solid #a6abaf;
+        border-radius: 6px 6px 0 0;
+        box-sizing: border-box;
+        color: #727678;
+        display: block;
+        height: 43px;
+        padding-top: 10px;
+        margin: 0;
+        text-align: center;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.2), 0 1px 0 #fff;
+    }
+    #blackList section {
+        margin: 10px;
+    }
+    #blackList section.action{
+        text-align: center;
+    }
+    #blackList button {
+        margin-top: 10px;
+        background-color: black;
+        color: white;
+        border-radius: 7px;
+        padding-bottom: 4px;
+        width: 60px;
+    }
+    #blackList button#blackListClose {
+        background-color: #c7c7c700;
+        color: #292929;
+    }
+</style>
+
+
+<main id="blackList">
+    <section class="action">
+        <h2>Block List</h2>
+        <button type="submit" id="blackListClose">Close</button>
+    </section>
+    <section>
+        <table id="blackListTable">
+            <tbody>
+            <tr>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>

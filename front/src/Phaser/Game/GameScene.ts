@@ -26,7 +26,7 @@ import {AddPlayerInterface} from "./AddPlayerInterface";
 import {PlayerAnimationNames} from "../Player/Animation";
 import {PlayerMovement} from "./PlayerMovement";
 import {PlayersPositionInterpolator} from "./PlayersPositionInterpolator";
-import {RemotePlayer, selectedEvent} from "../Entity/RemotePlayer";
+import {RemotePlayer} from "../Entity/RemotePlayer";
 import {Queue} from 'queue-typescript';
 import {SimplePeer, UserSimplePeerInterface} from "../../WebRtc/SimplePeer";
 import {ReconnectingSceneName} from "../Reconnecting/ReconnectingScene";
@@ -1091,9 +1091,6 @@ export class GameScene extends ResizableScene implements CenterListener {
         );
         this.MapPlayers.add(player);
         this.MapPlayersByKey.set(player.userId, player);
-        player.on(selectedEvent, () => {
-            blackListManager.blackList(player.userId);
-        })
         player.updatePosition(addPlayerData.position);
     }
 

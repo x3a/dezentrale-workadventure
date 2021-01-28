@@ -3,13 +3,14 @@ import {SelectCharacterScene, SelectCharacterSceneName} from "../Login/SelectCha
 import {gameManager} from "../Game/GameManager";
 import {localUserStore} from "../../Connexion/LocalUserStore";
 import {mediaManager} from "../../WebRtc/MediaManager";
-import {coWebsiteManager} from "../../WebRtc/CoWebsiteManager";
+import {blackListManager} from "../../WebRtc/BlackListManager";
 
 export const MenuSceneName = 'MenuScene';
 const gameMenuKey = 'gameMenu';
 const gameMenuIconKey = 'gameMenuIcon';
 const gameSettingsMenuKey = 'gameSettingsMenu';
 const gameShare = 'gameShare';
+const blackListKey = 'blackList';
 
 const closedSideMenuX = -200;
 const openedSideMenuX = 0;
@@ -27,6 +28,7 @@ export class MenuScene extends Phaser.Scene {
     private gameQualityValue: number;
     private videoQualityValue: number;
     private menuButton!: Phaser.GameObjects.DOMElement;
+    private blackListMenu: Phaser.GameObjects.DOMElement | null = null;
 
     constructor() {
         super({key: MenuSceneName});
@@ -40,6 +42,7 @@ export class MenuScene extends Phaser.Scene {
         this.load.html(gameMenuIconKey, 'resources/html/gameMenuIcon.html');
         this.load.html(gameSettingsMenuKey, 'resources/html/gameQualityMenu.html');
         this.load.html(gameShare, 'resources/html/gameShare.html');
+        this.load.html(blackListKey, 'resources/html/blackList.html');
     }
 
     create() {
@@ -245,6 +248,9 @@ export class MenuScene extends Phaser.Scene {
             case 'editGameSettingsButton':
                 this.openGameSettingsMenu();
                 break;
+            case 'showBlackListButton':
+                this.showBlackListButton()
+                break;
             case 'adminConsoleButton':
                 gameManager.getCurrentGameScene(this).ConsoleGlobalMessageManager.activeMessageConsole();
                 break;
@@ -280,5 +286,25 @@ export class MenuScene extends Phaser.Scene {
     private closeAll(){
         this.closeGameQualityMenu();
         this.closeGameShare();
+        this.closeBlackListButton();
+    }
+
+    private showBlackListButton(): void {
+        if (this.blackListMenu) return;
+        const middleX = window.innerWidth / 2;
+        this.blackListMenu = this.add.dom(middleX, 300).createFromCache(blackListKey);
+
+        const blackListInfo = this.blackListMenu.getChildByID('blackListTable') as HTMLTableSectionElement;
+        blackListManager.getList().forEach((userData) => {
+            const row = blackListInfo.insertRow();
+            const cell = row.insertCell();
+            cell.innerHTML = ''+userData.name;
+        })
+    }
+
+    private closeBlackListButton(): void {
+        if (!this.blackListMenu) return;
+        this.blackListMenu.removedFromScene();
+        this.blackListMenu = null;
     }
 }

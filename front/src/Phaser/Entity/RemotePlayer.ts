@@ -3,7 +3,6 @@ import {PointInterface} from "../../Connexion/ConnexionModels";
 import {Character} from "../Entity/Character";
 import {Sprite} from "./Sprite";
 
-export const selectedEvent = 'selected';
 
 /**
  * Class representing the sprite of a remote player (a player that plays on another computer)
@@ -27,21 +26,10 @@ export class RemotePlayer extends Character {
         //set data
         this.userId = userId;
         
-        this.playerName.setInteractive();
+        //todo: implement on click action
+        /*this.playerName.setInteractive();
         this.playerName.on('pointerup', () => {
-            this.toggleBlockStatus();
-            this.emit(selectedEvent);
-        });
-    }
-    
-    toggleBlockStatus(): void {
-        if (this.blocked) {
-            this.blocked = false;
-            this.playerName.setText(this.PlayerValue);
-        } else {
-            this.blocked = true;
-            this.playerName.setText('Blocked'); //todo: red text instead?
-        }
+        });*/
     }
 
     updatePosition(position: PointInterface): void {

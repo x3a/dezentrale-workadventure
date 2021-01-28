@@ -1,13 +1,23 @@
+
+interface blockedUser {
+    id: number;
+    name: string;
+}
+
 class BlackListManager {
-    private list: number[] = []; //todo: localstorage
+    private list: blockedUser[] = [];
     
-    isBlackListed(userId: number) {
-        return this.list.indexOf(userId) > -1;
+    getList() {
+        return this.list;
     }
     
-    blackList(userId: number): void {
+    isBlackListed(userId: number) {
+        return this.list.find((data) => data.id === userId) !== null;
+    }
+    
+    blackList(userName: string, userId: number): void {
         if (this.isBlackListed(userId)) return;
-        this.list.push(userId);
+        this.list.push({id: userId, name: userName});
     }
 }
 

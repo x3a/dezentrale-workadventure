@@ -140,8 +140,13 @@ export class SimplePeer {
         const reportCallback = this.enableReporting ? (comment: string) => {
             this.reportUser(user.userId, comment);
         } : undefined;
-
-        mediaManager.addActiveVideo("" + user.userId, reportCallback, name);
+        
+        const blockCallback = (user: UserSimplePeerInterface) => {
+            blackListManager.blackList(user.name, user.userId);
+            //todo: close connection
+        }
+            
+        mediaManager.addActiveVideo(user, reportCallback, blockCallback, name);
 
         const peer = new VideoPeer(user.userId, user.initiator ? user.initiator : false, this.Connection);
 

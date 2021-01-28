@@ -73,6 +73,10 @@ body .message-info.warning{
     right: 5px;
     left: auto;
 }
+.video-container img.block-button{
+    right: 20px;
+    left: auto;
+}
 
 .video-container video{
     height: 100%;
