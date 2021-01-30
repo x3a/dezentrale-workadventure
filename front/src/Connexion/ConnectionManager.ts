@@ -7,7 +7,7 @@ import {localUserStore} from "./LocalUserStore";
 import {LocalUser} from "./LocalUser";
 import {Room} from "./Room";
 
-const URL_ROOM_STARTED = '/Floor0/floor0.json';
+const URL_ROOM_STARTED = '/main.json';
 
 class ConnectionManager {
     private localUser!:LocalUser;
